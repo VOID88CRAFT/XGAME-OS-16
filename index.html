@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#020817">
+<title>XGAME OS 16 — Launcher v0.3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#020817;--panel:#061a35;--blue:#087dff;--cyan:#00eaff;--white:#f1f8ff;--muted:#a9c9e9}
+*{box-sizing:border-box} body{margin:0;font-family:Vazirmatn,system-ui,sans-serif;color:var(--white);min-height:100svh;background:#01040b;overflow:hidden}
+button{font:inherit;color:inherit;border:0;cursor:pointer}
+.wall{position:relative;min-height:100svh;max-width:520px;margin:auto;overflow:hidden;padding:10px 19px 15px;background:radial-gradient(ellipse at 50% 38%,#06336c 0,transparent 42%),radial-gradient(ellipse at 8% 80%,#05244a 0,transparent 35%),linear-gradient(145deg,#01040b,#03152e 55%,#01040b)}
+.wall:before{content:"";position:absolute;inset:-20%;pointer-events:none;background:repeating-linear-gradient(132deg,transparent 0 90px,#087dff24 91px,transparent 94px 180px);mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+.wall:after{content:"";position:absolute;left:-30%;right:-30%;top:29%;height:1px;background:#00bfff55;box-shadow:0 0 24px #008cff;transform:rotate(-27deg);pointer-events:none}
+.content{position:relative;z-index:1;min-height:calc(100svh - 25px);display:flex;flex-direction:column;gap:15px}
+.status{height:27px;padding:2px 3px 0;display:flex;justify-content:space-between;align-items:center;font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#f0faff;direction:ltr;text-shadow:0 0 10px #00bfff}
+.statusright{display:flex;align-items:center;gap:8px;direction:ltr}.status svg{width:19px;height:18px;filter:drop-shadow(0 0 5px #00bfff)}
+.battery{width:25px;height:13px;border:1.5px solid #eaf7ff;border-radius:4px;padding:2px;position:relative}.battery:after{content:"";position:absolute;right:-4px;top:3px;width:2px;height:5px;background:#eaf7ff;border-radius:0 2px 2px 0}.battery i{display:block;width:0%;height:100%;background:linear-gradient(90deg,#00cfff,#eafaff);border-radius:2px}#batteryText{font-size:11px}
+.top{display:flex;align-items:center;justify-content:space-between}.brand{font-size:12px;letter-spacing:2px;font-weight:900;color:#b4e5ff;text-shadow:0 0 12px #008cff}
+.pill{background:#061b36;border:1px solid #087dff88;border-radius:30px;padding:7px 12px;font-size:11px;color:#d8eaff;box-shadow:0 0 12px #006bff44}
+.greeting{margin-top:0;text-align:center}.date{color:#b7d8f8;font-size:12px}.greeting h1{font-size:21px;margin:5px 0 1px;font-weight:750}.subtitle{font-size:11px;color:#b7cce5}
+.logo{height:29vh;min-height:180px;max-height:260px;display:grid;place-items:center;position:relative;margin-top:-2px}
+.ring{width:min(54vw,230px);aspect-ratio:1;border-radius:50%;border:2px solid #078cff;box-shadow:0 0 13px #007bff,0 0 38px #006dff66,inset 0 0 30px #006dff44;display:grid;place-items:center;position:relative}
+.ring:before,.ring:after{content:"";position:absolute;border-radius:50%;inset:12px;border:1px solid #00d9ff99}.ring:after{inset:-10px;border-color:#087dff88;transform:scaleY(.86) rotate(25deg)}
+.number{font-family:Arial,sans-serif;font-size:clamp(112px,34vw,165px);font-weight:900;line-height:1;letter-spacing:-10px;color:#061d4c;-webkit-text-stroke:2px #00dfff;text-shadow:0 0 5px #fff,0 0 14px #00cfff,0 0 32px #006dff,0 0 55px #006dff}
+.search{background:#020d20dd;border:1.5px solid #078cff;border-radius:17px;padding:12px 15px;display:flex;gap:10px;align-items:center;color:#d9eaff;box-shadow:0 0 15px #007bff66,inset 0 0 12px #007bff20}.search input{background:none;border:0;outline:0;color:white;width:100%;font:inherit;font-size:12px}.search input::placeholder{color:#b7cce5}
+.section{font-size:11px;color:#b7d8f8;margin:0 2px -3px}.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px 9px}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;min-width:0}
+.icon{--c1:#00dfff;--c2:#3975ff;width:55px;height:55px;border-radius:18px;background:linear-gradient(145deg,color-mix(in srgb,var(--c1) 24%,#061329),color-mix(in srgb,var(--c2) 25%,#020713));display:grid;place-items:center;border:1.5px solid var(--c1);box-shadow:0 0 7px color-mix(in srgb,var(--c1) 75%,transparent),inset 0 0 14px color-mix(in srgb,var(--c2) 40%,transparent);font-size:24px;color:var(--c1);text-shadow:0 0 8px var(--c1),0 0 15px var(--c2)}
+.app span:last-child{font-size:11px;color:#f0f6ff;text-shadow:0 1px 5px #000}
+.dock{margin-top:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:#020d20d9;border:1.5px solid #078cff99;padding:10px 8px;border-radius:23px;box-shadow:0 0 16px #006dff66;backdrop-filter:blur(16px)}
+.dock .icon{width:48px;height:48px;border-radius:16px;font-size:22px}.dock .app span:last-child{display:none}
+.bottom{display:flex;justify-content:center;padding-top:0}.gesture{width:108px;height:4px;background:#ffffffb8;border-radius:5px}
+.overlay{position:fixed;inset:0;background:#04101ff2;backdrop-filter:blur(22px);padding:46px 20px 24px;display:none;overflow:auto;z-index:5}.overlay.show{display:block}
+.overlay-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.overlay h2{margin:0;font-size:24px}.close{background:#ffffff18;border-radius:50%;width:38px;height:38px;font-size:21px}
+.drawergrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 8px}
+.setting{display:flex;align-items:center;gap:14px;padding:15px 4px;border-bottom:1px solid #ffffff18}.setting .icon{width:43px;height:43px;border-radius:14px;font-size:19px}.setting small{display:block;color:var(--muted);margin-top:3px}
+.shade{position:fixed;inset:0 0 auto;background:#06172bed;backdrop-filter:blur(22px);padding:24px 20px 28px;border-radius:0 0 26px 26px;transform:translateY(-110%);transition:.25s;z-index:6}.shade.show{transform:translateY(0)}
+.toggles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}.toggle{padding:15px;border-radius:15px;background:#ffffff16;text-align:right;border:1px solid #ffffff18}.toggle.active{background:#1766a6}
+.toast{position:fixed;bottom:35px;left:50%;transform:translate(-50%,20px);opacity:0;background:#e9f4ff;color:#08213c;padding:11px 17px;border-radius:22px;font-size:13px;transition:.2s;pointer-events:none;white-space:nowrap;z-index:10}.toast.show{opacity:1;transform:translate(-50%,0)}
+.settings-search{width:100%;padding:13px 15px;border-radius:16px;background:#ffffff12;border:1px solid #ffffff22;color:white;font:inherit;margin-bottom:10px}
+.setting{border-radius:14px;padding:14px 8px}.setting:active{background:#ffffff12}
+@media(min-width:600px){.content{max-width:440px;margin:auto}.overlay{padding-left:max(24px,calc((100vw - 440px)/2));padding-right:max(24px,calc((100vw - 440px)/2))}}
+@media(max-height:700px){.content{gap:10px}.logo{height:22vh;min-height:145px}.apps{gap:10px 8px}.icon{width:49px;height:49px}.greeting h1{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="wall"><main class="content">
+ <header class="status" id="status" onclick="toggleShade()">
+  <span id="clock">--:--</span>
+  <div class="statusright">
+   <svg viewBox="0 0 24 20" fill="none" aria-label="آنتن"><path d="M3 17V14M8 17V10M13 17V6M18 17V2" stroke="#effaff" stroke-width="2.8" stroke-linecap="round"/></svg>
+   <svg viewBox="0 0 24 20" fill="none" aria-label="وای‌فای"><path d="M2 6C7 1.5 17 1.5 22 6M5 10C9 6.8 15 6.8 19 10M9 14C11 12.5 13 12.5 15 14M12 18h.01" stroke="#effaff" stroke-width="2.3" stroke-linecap="round"/></svg>
+   <div class="battery"><i id="batteryFill"></i></div><span id="batteryText">--%</span>
+  </div>
+ </header>
+ <div class="top"><div class="brand">XGAME OS 16</div><button class="pill" onclick="toggleShade()">مرکز کنترل　⌄</button></div>
+ <div class="greeting"><div class="date" id="date">رابط کاربری XGAME OS</div><h1>سلام، امیر!</h1><div class="subtitle">به دنیای XGAME خوش آمدی</div></div>
+ <section class="logo"><div class="ring"><div class="number">16</div></div></section>
+ <label class="search">⌕ <input id="search" placeholder="جست‌وجوی برنامه‌ها..." oninput="searchApps(this.value)"></label>
+ <div class="section">برنامه‌های منتخب</div>
+ <div class="apps" id="mainApps">
+  <button class="app" onclick="toast('تلفن — پیش‌نمایش')"><span class="icon" style="--c1:#00eaff;--c2:#347dff">☎</span><span>تلفن</span></button>
+  <button class="app" onclick="toast('پیام‌ها — پیش‌نمایش')"><span class="icon" style="--c1:#ff55df;--c2:#8b55ff">✉</span><span>پیام‌ها</span></button>
+  <button class="app" onclick="toast('دوربین — پیش‌نمایش')"><span class="icon" style="--c1:#00f0d0;--c2:#00aaff">◉</span><span>دوربین</span></button>
+  <button class="app" onclick="openSettings()"><span class="icon" style="--c1:#ffc45c;--c2:#ff6d38">⚙</span><span>تنظیمات</span></button>
+  <button class="app" onclick="toast('مدیریت فایل — پیش‌نمایش')"><span class="icon" style="--c1:#58ff9a;--c2:#00b7a0">▣</span><span>فایل‌ها</span></button>
+  <button class="app" onclick="toast('مرورگر — پیش‌نمایش')"><span class="icon" style="--c1:#5bc7ff;--c2:#7d70ff">◎</span><span>مرورگر</span></button>
+  <button class="app" onclick="toast('بخش بازی‌ها — به‌زودی')"><span class="icon" style="--c1:#ff6a9c;--c2:#a34dff">🎮</span><span>بازی‌ها</span></button>
+  <button class="app" onclick="openDrawer()"><span class="icon" style="--c1:#b78cff;--c2:#427dff">⠿</span><span>همه برنامه‌ها</span></button>
+ </div>
+ <div class="dock">
+  <button class="app" onclick="toast('تلفن — پیش‌نمایش')"><span class="icon" style="--c1:#58ff9a;--c2:#00b7a0">☎</span><span>تلفن</span></button>
+  <button class="app" onclick="toast('مرورگر — پیش‌نمایش')"><span class="icon" style="--c1:#5bc7ff;--c2:#7d70ff">◎</span><span>وب</span></button>
+  <button class="app" onclick="toast('بازی‌ها — پیش‌نمایش')"><span class="icon" style="--c1:#ff6a9c;--c2:#a34dff">🎮</span><span>بازی</span></button>
+  <button class="app" onclick="openDrawer()"><span class="icon" style="--c1:#b78cff;--c2:#427dff">⠿</span><span>برنامه‌ها</span></button>
+ </div>
+ <div class="bottom"><div class="gesture"></div></div>
+</main></div>
+<section class="overlay" id="drawer"><div class="overlay-head"><h2>همه برنامه‌ها</h2><button class="close" onclick="closeOverlays()">×</button></div><div class="drawergrid" id="drawerGrid"></div></section>
+<section class="overlay" id="settings"><div class="overlay-head"><h2>تنظیمات XGAME</h2><button class="close" onclick="closeOverlays()">×</button></div>
+ <input class="settings-search" placeholder="جست‌وجو در تنظیمات..." oninput="filterSettings(this.value)">
+ <div id="settingsList">
+ <div class="setting" data-search="نمایشگر روشنایی تصویر زمینه"><span class="icon" style="--c1:#00eaff;--c2:#347dff">◈</span><div>نمایشگر<small>روشنایی و تصویر زمینه</small></div></div>
+ <div class="setting" data-search="شبکه اینترنت وای فای"><span class="icon" style="--c1:#58ff9a;--c2:#00b7a0">⌁</span><div>شبکه و اینترنت<small>اتصالات دستگاه</small></div></div>
+ <div class="setting" data-search="بلوتوث دستگاه متصل"><span class="icon" style="--c1:#5bc7ff;--c2:#7d70ff">ᛒ</span><div>دستگاه‌های متصل<small>بلوتوث و اتصال‌ها</small></div></div>
+ <div class="setting" data-search="صدا لرزش"><span class="icon" style="--c1:#ff55df;--c2:#8b55ff">♧</span><div>صدا و لرزش<small>صدای زنگ و سیستم</small></div></div>
+ <div class="setting" data-search="اعلان مرکز کنترل"><span class="icon" style="--c1:#ffc45c;--c2:#ff6d38">▤</span><div>اعلان‌ها و مرکز کنترل<small>مدیریت اعلان‌ها</small></div></div>
+ <div class="setting" data-search="برنامه ها مدیریت"><span class="icon" style="--c1:#b78cff;--c2:#427dff">▦</span><div>برنامه‌ها<small>برنامه‌های نصب‌شده</small></div></div>
+ <div class="setting" data-search="باتری مصرف"><span class="icon" style="--c1:#58ff9a;--c2:#00b7a0">▰</span><div>باتری<small>مصرف و وضعیت باتری</small></div></div>
+ <div class="setting" data-search="امنیت حریم خصوصی قفل"><span class="icon" style="--c1:#ffc45c;--c2:#ff6d38">🔒</span><div>امنیت و حریم خصوصی<small>قفل و مجوزها</small></div></div>
+ <div class="setting" data-search="درباره سیستم نسخه"><span class="icon" style="--c1:#5bc7ff;--c2:#7d70ff">ⓘ</span><div>درباره XGAME OS<small>نسخه ۰.۳ — Launcher</small></div></div>
+ </div>
+ <p style="color:#a9c9e9;font-size:11px">این بخش فعلاً رابط نمایشی است؛ گزینه‌هایی که به تنظیمات واقعی اندروید نیاز دارند در نسخه‌های بعدی متصل می‌شوند.</p>
+</section>
+<section class="shade" id="shade"><div class="overlay-head"><div><div class="date">مرکز کنترل</div><h2 id="shadeTime">--:--</h2></div><button class="close" onclick="toggleShade()">×</button></div><div class="toggles"><button class="toggle active" onclick="this.classList.toggle('active')">◉　اینترنت</button><button class="toggle" onclick="this.classList.toggle('active')">⌁　بلوتوث</button><button class="toggle" onclick="this.classList.toggle('active')">☾　حالت تاریک</button><button class="toggle" onclick="this.classList.toggle('active')">✈　حالت پرواز</button></div><p style="color:#b7cce5;font-size:12px;margin-top:22px">کلیدها در این پیش‌نمایش نمایشی‌اند و تنظیمات واقعی گوشی را تغییر نمی‌دهند.</p></section>
+<div class="toast" id="toast"></div>
+<script>
+const apps=[["تلفن","☎","#00eaff","#347dff"],["پیام‌ها","✉","#ff55df","#8b55ff"],["دوربین","◉","#00f0d0","#00aaff"],["تنظیمات","⚙","#ffc45c","#ff6d38"],["فایل‌ها","▣","#58ff9a","#00b7a0"],["مرورگر","◎","#5bc7ff","#7d70ff"],["بازی‌ها","🎮","#ff6a9c","#a34dff"],["تقویم","▦","#ffc45c","#ff6d38"],["موسیقی","♫","#ff55df","#8b55ff"],["گالری","▧","#00eaff","#347dff"],["ماشین‌حساب","＋","#58ff9a","#00b7a0"],["درباره سیستم","ⓘ","#b78cff","#427dff"]];
+const grid=document.getElementById('drawerGrid');
+apps.forEach(([n,i,c1,c2])=>{const b=document.createElement('button');b.className='app';b.innerHTML=`<span class="icon" style="--c1:${c1};--c2:${c2}">${i}</span><span>${n}</span>`;b.onclick=()=>n==='تنظیمات'?openSettings():toast(n+' — پیش‌نمایش');grid.appendChild(b)});
+function openDrawer(){closeOverlays();document.getElementById('drawer').classList.add('show')}
+function openSettings(){closeOverlays();document.getElementById('settings').classList.add('show')}
+function closeOverlays(){document.querySelectorAll('.overlay').forEach(x=>x.classList.remove('show'))}
+function toggleShade(){document.getElementById('shade').classList.toggle('show')}
+let timer;function toast(s){const t=document.getElementById('toast');t.textContent=s;t.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>t.classList.remove('show'),1900)}
+function searchApps(q){document.querySelectorAll('#mainApps .app').forEach(b=>b.style.display=b.innerText.includes(q)?'flex':'none')}
+function filterSettings(q){document.querySelectorAll('#settingsList .setting').forEach(x=>x.style.display=x.dataset.search.includes(q.trim())?'flex':'none')}
+function updateClock(){const d=new Date();const t=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});document.getElementById('clock').textContent=t;document.getElementById('shadeTime').textContent=t;document.getElementById('date').textContent=d.toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long'})}
+updateClock();setInterval(updateClock,30000);
+if(navigator.getBattery){navigator.getBattery().then(b=>{function updateBattery(){const n=Math.round(b.level*100);document.getElementById('batteryText').textContent=n+'%';document.getElementById('batteryFill').style.width=n+'%'}updateBattery();b.addEventListener('levelchange',updateBattery)}).catch(()=>{})}
+</script>
+</body>
+</html>
